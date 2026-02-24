@@ -1,0 +1,155 @@
+<div class="grid grid-cols-2"> 
+    <div class="bg-purple-800 p-2 rounded-lg mt-2">
+        <h1 class="text-white font-extralight text-2xl">
+            Directivas if
+        </h1>
+        @if(isActive===true){
+            <div class="bg-amber-300 m-2 w-1/3 text-center rounded">
+                ACTIVO...
+            </div>
+        } @else{
+            <h2 class="text-white text-center"> Activa el usuario para ver la informacion</h2>
+        }
+        <button (click)="activarUsuario()" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer">
+            {{isActive ? 'Desactivar Usuario' : 'Activar Usuario'}}
+        </button>
+        <hr>
+
+    </div>
+    <div class="bg-blue-900 p-2 rounded-lg mt-2">
+        <h1 class="text-white font-extralight text-2xl">
+            Menu principal : (Hola {{role}})
+        </h1>
+        <hr>
+        <ul>
+            <li class="text-white p-1 border w-1/2 rounded mt-1 hover:bg-blue-600 cursor-pointer">Usuarios</li>
+            <li class="text-white p-1 border w-1/2 rounded mt-1 hover:bg-blue-600 cursor-pointer">Perfil</li>
+            @if (role === 'admin') {
+            <li class="text-white p-1 border w-1/2 rounded mt-1 hover:bg-blue-600 cursor-pointer">Ventas</li>
+            <li class="text-white p-1 border w-1/2 rounded mt-1 hover:bg-blue-600 cursor-pointer">Reportes</li>
+            }
+        </ul>
+        <button>
+            @if (role === 'user') {
+                <button (click)="serAdmin()" 
+                class="bg-yellow-500 text-white p-2 rounded-xl cursor-pointer">
+                    Iniciar como admin
+                </button>
+            } @else {
+                <button (click)="seruser()" 
+                class="bg-cyan-600 text-white p-2 rounded-xl cursor-pointer">
+                    Iniciar como user
+                </button>
+            }
+        </button>
+    </div>
+    <!--@for-->
+    <div class="bg-indigo-400 rounded-lg m-2">
+        <h1 class="font-extralight text-2xl">Directivas for</h1>
+        <hr>
+        @for( empleado of empleados; track empleado.id){
+            <div class="bg-zinc-300 m-1 p-1 rounded-md" >
+                <p class="font-light text-lg">Nombre: {{empleado.nombre}}</p>
+                <hr>
+                @for(habilidad of empleado.habilidades; track habilidad){
+                    <button class="bg-pink-300 rounded-full p-1 m-1 text-sm">
+                        {{habilidad}}
+                    </button>
+                    
+                }
+                <ol>
+                    <li>Email: {{empleado.email}}</li>
+                    <li>Puesto: {{empleado.puesto}}</li>
+                    <li>Edad: {{empleado.edad}}</li>
+                </ol>
+                @if(empleado.activo){
+                    <button class="bg-green-300 rounded p-1 mt-1">
+                        activo
+                    </button>
+                }
+            </div>
+        }@empty{
+            <h1 class="text-center text-2xl mt-3 ">no hay
+                empleados actualmente</h1>
+        }
+        <button (click)="finiquitarEmpleado()" 
+        class="bg-red-500 rounded-md p-1 w1/4 m-1">
+            Finiquitar empleado
+        </button>
+        <button (click)="recuperarEmpleados()"
+        class="bg-yellow-500 rounded-md p-1 w1/4 m-1">
+            Recuperar empleado
+        </button>
+        <button (click)="agregarEmpleado(
+        {
+            id: 4,
+            nombre: 'Maria',
+            email: 'nada@',
+            puesto: 'Gerente',
+            edad: 30,
+            habilidades: ['Liderazgo', 'Organización'],
+            activo: true
+        }
+        )"
+        class="bg-green-500 rounded-md p-1 w1/4 m-1">
+            Agregar empleado
+        </button>
+    </div>
+
+    <div class="bg-orange-500 rounded-md p-1 w1/4 m-1">
+        <button (click)="agregarEmoji()"
+        class="bg-purple-500 rounded-md p-1 w1/4 m-1">
+            Agregar emojis
+        </button>
+        @for (e of emojis; track e.id) {
+            <span class="text-2xl m-1">{{ e.emoji[0] }}</span>
+        }
+        <button (click)="borrarEmoji()"
+        class="bg-red-500 rounded-md p-1 w1/4 m-1">
+            Borrar emojis
+        </button>
+        
+        <div class="bg-indigo-400 rounded-lg m-2">
+            <h1 class="font-extralight text-2xl">Directivas for</h1>
+            <hr>
+            @switch(codigo){
+                @case('404'){
+                    <h1 class="text-center text-2xl mt-3 ">Página no encontrada</h1>
+                }
+                @case('401'){
+                    <h1 class="text-center text-2xl mt-3 ">No autorizado</h1>
+                }
+                @case('500'){
+                    <h1 class="text-center text-2xl mt-3 ">Error interno del servidor</h1>
+                }
+                @case('200'){
+                    <h1 class="text-center text-2xl mt-3 ">OK</h1>
+                }
+                @case('201'){
+                    <h1 class="text-center text-2xl mt-3 ">Creado</h1>
+                }
+                @default{
+                    <h1 class="text-center text-2xl mt-3 ">Código desconocido</h1>
+                }
+            }
+            @for(c of listaCodigos; track $index){
+            <button (click)="describirCodigo(c)"
+            class="bg-yellow-500 rounded-md p-1 w1/4 m-1">
+                {{c}}
+            </button>
+        }
+        </div>
+        <div class="bg-amber-200 rounded-md p-2 m-2 text-center">
+            <div class="text-4xl">{{ moodEmojis[moodIndex] }}</div>
+            <div class="mt-2">
+                <button (click)="masTriste()"
+                class="bg-red-400 text-white rounded px-3 py-1 m-1">-</button>
+                <button (click)="masFeliz()"
+                class="bg-green-500 text-white rounded px-3 py-1 m-1">+</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

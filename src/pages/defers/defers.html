@@ -1,0 +1,18 @@
+@defer (on timer(3000)) {
+  <app-banner></app-banner>
+} @placeholder {
+  <h1 class="text-center font-light text-2xl">Espera un momento, están cargando las ofertas...</h1>
+}
+<div class="grid grid-cols-3 gap-2">
+  @for (item of [1,1,1,1,1,1]; track $index) {
+    <app-card-product></app-card-product>
+  }
+</div>
+
+<button #botonCupones class="bg-purple-500 rounded-xl p-2 text-zinc-50 m-2 w-1/4 animate-bounce cursor-pointer hover:bg-purple-700">Reclamar ofertas</button>
+
+@defer (on interaction(botonCupones)) {
+  <app-cupones></app-cupones>
+} @placeholder {
+  <h1 class="text-center">Da click en el botón para ver tu suerte...</h1>
+}
