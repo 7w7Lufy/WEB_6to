@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Directivas } from '../pages/directivas/directivas';
-import { MetodosArrays } from '../pages/metodos-arrays/metodos-arrays';
+import { FrameworksComponent } from '../pages/Frameworks/Framework';
 
 export const routes: Routes = [
     {
@@ -8,8 +8,8 @@ export const routes: Routes = [
         component: Directivas
     },
     {
-        path: 'metodos-arrays',
-        component: MetodosArrays
+        path: 'frameworks',
+        component: FrameworksComponent
     },
     {
         path: '**',

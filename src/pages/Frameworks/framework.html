@@ -1,0 +1,18 @@
+
+
+<div class="bg-gray-900 p-4 rounded-lg">
+  <h2 style="color: red; font-weight: bold; font-size: 24px;">Frameworks</h2>
+  
+  @if (frameworks.length > 0) {
+    @for (framework of frameworks; track framework) {
+      <div class="text-white p-2 border border-gray-600 rounded mt-2">
+        {{ framework }}
+      </div>
+    }
+    <button (click)="vaciarArray()" class="bg-red-500 text-white p-2 rounded mt-2 cursor-pointer">
+      Eliminar Frameworks
+    </button>
+  } @else {
+    <p class="text-red-500 font-bold text-xl mt-4">Error 404 , framework no encontrados</p>
+  }
+</div>
