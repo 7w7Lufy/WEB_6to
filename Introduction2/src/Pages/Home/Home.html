@@ -1,0 +1,113 @@
+<section class="home-wrap">
+  <header class="home-header">
+    <div class="header-row">
+      <div>
+        <h1>Productos</h1>
+        <p>Listado de productos disponibles.</p>
+      </div>
+      <button type="button" class="add-product-btn" (click)="onToggleForm()">
+        {{ showForm() ? 'Cerrar formulario' : 'Agregar producto' }}
+      </button>
+    </div>
+
+    @if (showForm()) {
+      <form class="product-form" [formGroup]="productForm" (ngSubmit)="onSubmitProduct()">
+        <div class="field-grid">
+          <label class="field">
+            <span>Nombre</span>
+            <input type="text" formControlName="name" placeholder="Ej: Coca" />
+            @if (hasError('name', 'required')) {
+              <small>El nombre es obligatorio.</small>
+            } @else if (hasError('name', 'minlength')) {
+              <small>Ingresa al menos 2 caracteres.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Categoría</span>
+            <input type="text" formControlName="category" placeholder="Ej: Adiccion" />
+            @if (hasError('category', 'required')) {
+              <small>La categoría es obligatoria.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Costo</span>
+            <input type="number" min="1" formControlName="price" />
+            @if (hasError('price', 'required') || hasError('price', 'min')) {
+              <small>El costo debe ser mayor que 0.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Precio de venta</span>
+            <input type="number" min="1" formControlName="out_price" />
+            @if (hasError('out_price', 'required') || hasError('out_price', 'min')) {
+              <small>El precio de venta debe ser mayor que 0.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Stock</span>
+            <input type="number" min="0" formControlName="stock" />
+            @if (hasError('stock', 'required') || hasError('stock', 'min')) {
+              <small>El stock no puede ser negativo.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>URL de imagen (opcional)</span>
+            <input type="url" formControlName="url_image" placeholder="https://..." />
+          </label>
+        </div>
+
+        <label class="field full-width">
+          <span>Descripción (opcional)</span>
+          <textarea rows="3" formControlName="description" placeholder="Descripción pues que mas "></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="onCancelForm()">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar producto</button>
+        </div>
+      </form>
+    }
+  </header>
+
+  @if (loading()) {
+    <p class="state-msg">Cargando productos...</p>
+  } @else if (error()) {
+    <p class="state-msg error">{{ error() }}</p>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoria</th>
+            <th>Costo</th>
+            <th>Venta</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (products().length === 0) {
+            <tr>
+              <td colspan="5" class="empty-row">Todavia no hay productos registrados.</td>
+            </tr>
+          } @else {
+            @for (product of products(); track product.id) {
+              <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.price | currency:'USD':'symbol':'1.0-0' }}</td>
+                <td>{{ product.out_price | currency:'USD':'symbol':'1.0-0' }}</td>
+                <td>{{ product.stock }}</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
